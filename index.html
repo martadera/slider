@@ -7,8 +7,6 @@
 
     <title>Slider</title>
     <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
 
 
     <style>
@@ -56,6 +54,21 @@
 
         button {
             text-align: center;
+            width: 150px;
+            height: 50px;
+            background-color: transparent;
+            border-color: #226666;
+            color: #226666;
+            font-weight: 400;
+            text-transform: uppercase;
+            border: 1px solid #226666;
+            border-radius: 5%;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #226666;
+            color: white;
         }
 
         @media (max-width:800px) {
@@ -83,57 +96,59 @@
         <div class="div"></div>
         <div class="div"></div>
     </section>
-</body>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
-<script>
-    const div = document.getElementsByClassName('div');
-    const url = 'https://picsum.photos/list';
-    const urlconst = "http://source.unsplash.com";
-    const random = document.querySelector(".random");
-    const next = document.querySelector(".next");
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script>
+        const div = document.getElementsByClassName('div');
+        const url = 'https://picsum.photos/list';
+        const urlconst = "http://source.unsplash.com";
+        const random = document.querySelector(".random");
+        const next = document.querySelector(".next");
 
-    random.addEventListener("click", function() {
+        random.addEventListener("click", function() {
+            fetch(url)
+                .then((resp) => resp.json())
+                .then(function(data) {
+                    for (let i = 0; i < div.length; i++) {
+                        let random = Math.floor(Math.random() * data.length);
+                        div[i].style.backgroundImage = "url('" + urlconst + data[random].post_url.slice(27) + "')";
+
+                    }
+                })
+        })
+
+
+
         fetch(url)
             .then((resp) => resp.json())
             .then(function(data) {
                 for (let i = 0; i < div.length; i++) {
-                    let random = Math.floor(Math.random() * data.length);
-                    div[i].style.backgroundImage = "url('" + urlconst + data[random].post_url.slice(27) + "')";
+                    div[i].style.backgroundImage = "url('" + urlconst + data[i].post_url.slice(27) + "')";
 
                 }
             })
-    })
+
+        let counter = 2;
+        next.addEventListener("click", function() {
+            fetch(url)
+                .then((resp) => resp.json())
+                .then(function(data) {
+
+                    for (let i = 0; i < data.length; i++) {
+                        div[i].style.backgroundImage = "url('" + urlconst + data[counter = counter + 1].post_url.slice(27) + "')";
+                        console.log(counter);
 
 
 
-    fetch(url)
-        .then((resp) => resp.json())
-        .then(function(data) {
-            for (let i = 0; i < div.length; i++) {
-                div[i].style.backgroundImage = "url('" + urlconst + data[i].post_url.slice(27) + "')";
-
-            }
+                    }
+                })
         })
 
-    let counter = 2;
-    next.addEventListener("click", function() {
-        fetch(url)
-            .then((resp) => resp.json())
-            .then(function(data) {
-
-                for (let i = 0; i < data.length; i++) {
-                    div[i].style.backgroundImage = "url('" + urlconst + data[counter = counter + 1].post_url.slice(27) + "')";
-                    console.log(counter);
+    </script>
+</body>
 
 
 
-                }
-            })
-    })
-
-</script>
 
 </html>
